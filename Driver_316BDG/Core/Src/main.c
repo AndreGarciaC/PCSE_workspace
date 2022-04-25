@@ -60,7 +60,6 @@ static void MX_TIM1_Init(void);
 void PrintString( const char *pcString );
 void delay_us (uint16_t us);
 
-
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -72,6 +71,28 @@ void PrintString( const char *pcString )
 	  HAL_UART_Transmit(&huart3, (uint8_t *)pcString, (uint16_t) strlen((char *)pcString), 10);
 }
 
+double getAngle( uint16_t _sample)
+{
+	double ans;
+	uint16_t angle;
+	ans = (angle*360)/16383;
+	return ans;
+}
+
+uint8_t isError(uint16_t _sample)
+{
+	_sample = _sample&0x02;
+	_sample = _sample>>1;
+	if(_sample==1)
+	{
+		PrintString( "Error\r\n" );
+		return 1; //Error
+	}
+	else if(_sample ==0)
+	{
+		return 0; //No error
+	}
+}
 void delay_us (uint16_t us)
 {
 	__HAL_TIM_SET_COUNTER(&htim1,0);  // set the counter value a 0
@@ -88,7 +109,9 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	char uart_buffer [50];
-	char spi_buffer[10];
+	char spi_buffer[8];
+	char Rx;
+	uint16_t sample;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -120,23 +143,35 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  HAL_TIM_Base_Start(&htim1);
+  PrintString( "START\r\n" );
   while (1)
   {
 	  /* USER CODE END WHILE */
-	  PrintString( "START\r\n" );
+
 	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_RESET);
-	  HAL_Delay(2);
+	  delay_us(1);
 	  HAL_SPI_Transmit(&hspi1,(uint8_t *)&START_READ,1,100);
 	  HAL_SPI_Transmit(&hspi1,(uint8_t *)&START_READ2,1,100);
-//	  delay_us(45);
+	  delay_us(6);
 	  for (uint8_t i=0;i<8;i++)
 	  {
-		  HAL_SPI_Transmit(&hspi1,(uint8_t *)&START_READ2,1,100);
-//		  delay_us(38);
+		  HAL_SPI_TransmitReceive(&hspi1,(uint8_t *)&START_READ2,&Rx,1,100);
+		  spi_buffer[i]=Rx;
+		  delay_us(3);
 	  }
-	  HAL_SPI_Receive(&hspi1,(uint8_t *)&spi_buffer,10,100);
 	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
-	  PrintString( "\r\n" );
+	  sample = spi_buffer[1]&0xFF;
+	  sample|= (spi_buffer[0]&0xFF) << 8;
+	  if(isError(sample)==0)
+	  {
+		  sample = sample>>2;
+		  double angle = (getAngle(sample));
+		  PrintString(("Dato: "));
+		  PrintString((char)angle);
+		  PrintString("\r\n");
+	  }
+
 	  HAL_Delay(1000);
 	  /* USER CODE BEGIN 3 */
   }
@@ -205,9 +240,9 @@ static void MX_SPI1_Init(void)
   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi1.Init.CLKPhase = SPI_PHASE_2EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -241,9 +276,9 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 16;
+  htim1.Init.Prescaler = 90-1;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 0xffff;
+  htim1.Init.Period = 0xffff-1;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;

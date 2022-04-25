@@ -9,9 +9,10 @@
 #define INC_MLX90316_NUCLEO_PORT_H_
 
 #include "mlx90316.h"
+#include "stm32f4xx_hal.h"
 
 char spi_buffer[10];
-SPI_HandleTypeDef hspi1;
+//SPI_HandleTypeDef hspi1;
 
 void Cs_Nucleo(csCtrl_t cs_stt);
 void Spi_Read2Nucleo(void);
