@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <stdio.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -59,7 +60,8 @@ static void MX_USART3_UART_Init(void);
 static void MX_TIM1_Init(void);
 void PrintString( const char *pcString );
 void delay_us (uint16_t us);
-
+double getAngle( uint16_t _sample);
+uint8_t isError(uint16_t _sample);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -74,8 +76,7 @@ void PrintString( const char *pcString )
 double getAngle( uint16_t _sample)
 {
 	double ans;
-	uint16_t angle;
-	ans = (angle*360)/16383;
+	ans = (((double)_sample)*360.0)/16383.0;
 	return ans;
 }
 
@@ -167,9 +168,8 @@ int main(void)
 	  {
 		  sample = sample>>2;
 		  double angle = (getAngle(sample));
-		  PrintString(("Dato: "));
-		  PrintString((char)angle);
-		  PrintString("\r\n");
+		  sprintf(uart_buffer,"Dato: %3.2f \r\n",angle);
+		  PrintString(uart_buffer);
 	  }
 
 	  HAL_Delay(1000);
