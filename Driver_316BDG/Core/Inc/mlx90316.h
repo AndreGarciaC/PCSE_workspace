@@ -9,37 +9,22 @@
 #define INC_MLX90316_H_
 
 #include <stdint.h>
+#include <stdio.h>
 
-//#define START_READ 0xAA
-//#define START_READ2 0xFF;
+#define START_READ	 0xAA //First byte to initiate communication.
+#define START_READ2	 0xFF //Second byte to initiate communication.
 
 enum _csCtrl {
 	CS_RESET=0,
 	CS_SET};
 typedef enum _csCtrl csCtrl_t;
 
-
-typedef void (*csControl_t)(csCtrl_t);
-typedef uint16_t (*spiRead_t)(void);
-typedef void (*delayMs_t)(int32_t);
-
-
 /**
- * Estructura simple con punteros a funciones para separar la capa mas baja del driver
+ * Functions prototypes
  */
+void mlx90316_Init(void); //add structure of function used by the sensor
+double mlx90316_getAngle( uint16_t _sample);
+uint8_t mlx90316_isError(uint16_t _sample);
 
-//struct _malx90316  {
-//	csControl_t chip_select_ctrl;
-//	spiRead_t spi_read_fnc;
-//	delay1ms_t delay_1ms_func;
-//
-//};
-//
-//
-//
-//getpos
-//isconnected
-//reset
-//initdriver
 
 #endif /* INC_MLX90316_H_ */
