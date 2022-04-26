@@ -1,2 +1,0 @@
-../Core/Src/mlx90316_NUCLEO_port.c:43:6:Cs_Nucleo	16	static
-../Core/Src/mlx90316_NUCLEO_port.c:60:6:Spi_Read2Nucleo	4	static
