@@ -23,7 +23,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+SPI_HandleTypeDef hspi1;
+TIM_HandleTypeDef htim1;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,8 +42,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-SPI_HandleTypeDef hspi1;
-TIM_HandleTypeDef htim1;
+
 //
 
 
@@ -117,7 +117,6 @@ int main(void)
 //	char Rx;
 //	uint16_t sample;
 	mlx90316_t mlx90316;
-	nucleo_handlers_t nucleo_handlers;
 
   /* USER CODE END 1 */
 
@@ -142,6 +141,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USART3_UART_Init();
   MX_TIM1_Init();
+  HAL_TIM_Base_Start(&htim1);
   /* USER CODE BEGIN 2 */
   mlx90316.csMlx = Cs_Nucleo;
   mlx90316.delay_msMlx = Delay_ms_Nucleo;
@@ -149,12 +149,8 @@ int main(void)
   mlx90316.wrspiMlx = WR_Spi_Nucleo;
   mlx90316.wspiMlx = W_Spi_Nucleo;
 
-  nucleo_handlers.hspi = hspi1;
-  nucleo_handlers.htim = htim1;
-
-
-  Init_HW_Nucleo(nucleo_handlers);
   Mlx90316_Init(mlx90316);
+  Init_Handler(&hspi1, &htim1);
   //CS pin en alto por defecto
 //  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
 //  HAL_Delay(2);
@@ -162,7 +158,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  HAL_TIM_Base_Start(&htim1);
+
   PrintString( "START READING\r\n" );
   while (1)
   {
@@ -260,7 +256,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_2EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;

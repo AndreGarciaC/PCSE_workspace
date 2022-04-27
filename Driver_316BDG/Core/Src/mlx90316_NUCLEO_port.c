@@ -7,12 +7,13 @@
 
 #include "mlx90316_NUCLEO_port.h"
 
-static nucleo_handlers_t nucleo_hdlrs;
+static SPI_HandleTypeDef* hspi1;
+static TIM_HandleTypeDef* htim1;
 
-void Init_HW_Nucleo(nucleo_handlers_t handlers)
+void Init_Handler(SPI_HandleTypeDef * hspi, TIM_HandleTypeDef * htim)
 {
-	nucleo_hdlrs.hspi = handlers.hspi;
-	nucleo_hdlrs.htim = handlers.htim;
+	hspi1=hspi;
+	htim1=htim;
 }
 
 void Cs_Nucleo(cs_t cs_val)
@@ -32,20 +33,20 @@ void Cs_Nucleo(cs_t cs_val)
 	}
 }
 
-void W_Spi_Nucleo(uint8_t spi_byte)
+void W_Spi_Nucleo(uint8_t *spi_byte)
 {
-	HAL_SPI_Transmit(&nucleo_hdlrs.hspi,(uint8_t *)&spi_byte,1,100);
+	HAL_SPI_Transmit(hspi1,spi_byte,1,100);
 }
 
-void WR_Spi_Nucleo(uint8_t spi_byte, char rx)
+void WR_Spi_Nucleo(uint8_t* spi_byte, char *rx)
 {
-	HAL_SPI_TransmitReceive(&nucleo_hdlrs.hspi,(uint8_t *)&spi_byte,&rx,1,100);
+	HAL_SPI_TransmitReceive(hspi1,spi_byte,rx,1,100);
 }
 
 void FrameTiming_Nucleo(uint32_t timing)
 {
-	__HAL_TIM_SET_COUNTER(&nucleo_hdlrs.htim,0);  // set the counter value a 0
-	while (__HAL_TIM_GET_COUNTER(&nucleo_hdlrs.htim) < timing);  // wait for the counter to reach the us input in the parameter
+	__HAL_TIM_SET_COUNTER(htim1,0);  // set the counter value a 0
+	while (__HAL_TIM_GET_COUNTER(htim1) < timing);  // wait for the counter to reach the us input in the parameter
 }
 
 void Delay_ms_Nucleo(uint32_t ms)

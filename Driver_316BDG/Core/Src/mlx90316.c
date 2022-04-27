@@ -49,15 +49,18 @@ float Mlx90316_GetAngle()
 {
 	char Rx;
 	char spi_buffer[8];
+	float angle;
+	uint8_t b1 = STARTCOM_B1;
+	uint8_t b2 = STARTCOM_B2;
 	uint16_t sample;
 	mlx90316_fncs.csMlx(CS_RESET);
 	mlx90316_fncs.fTimingMlx(1); //t6
-	mlx90316_fncs.wspiMlx(STARTCOM_B1);
-	mlx90316_fncs.wspiMlx(STARTCOM_B2);
+	mlx90316_fncs.wspiMlx(&b1);
+	mlx90316_fncs.wspiMlx(&b2);
 	mlx90316_fncs.fTimingMlx(6);//t7
 	for (uint8_t i=0;i<8;i++)
 	{
-		mlx90316_fncs.wrspiMlx(STARTCOM_B2,Rx);
+		mlx90316_fncs.wrspiMlx(&b2,&Rx);
 		spi_buffer[i]=Rx;
 		mlx90316_fncs.fTimingMlx(3);//t2
 	}
@@ -67,12 +70,13 @@ float Mlx90316_GetAngle()
 	if(IsError(sample)==0)
 	{
 		sample = sample>>2;
-		float angle = (ComputeAngle(sample));
+		angle = (ComputeAngle(sample));
 	}
 	else
 	{
-		float angle = -1.0;
+		angle = -1.0;
 	}
+	return angle;
 }
 
 

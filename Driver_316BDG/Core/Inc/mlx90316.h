@@ -20,8 +20,8 @@ enum _csLevels {
 typedef enum _csLevels cs_t;
 
 typedef void (*CsBoard_t)(cs_t); //funcion con argumento tipo cs_t
-typedef void (*W_spiBoard_t)(uint8_t); //funcion con argumento tipo cs_t
-typedef void (*WR_spiBoard_t)(uint8_t, char); //funcion con argumento tipo cs_t
+typedef void (*W_spiBoard_t)(uint8_t*); //funcion con argumento tipo cs_t
+typedef void (*WR_spiBoard_t)(uint8_t*, char*); //funcion con argumento tipo cs_t
 typedef void (*Frame_Timing_t)(uint32_t); //funcion de delay en microsegundo
 typedef void (*Delay_ms_t)(uint32_t); //funcion de delay en milisegundos
 

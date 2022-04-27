@@ -11,16 +11,10 @@
 #include "mlx90316.h"
 #include "stm32f4xx_hal.h"
 
-struct _HW_handlers  {
-	SPI_HandleTypeDef hspi;
-	TIM_HandleTypeDef htim;
-};
-typedef struct _HW_handlers nucleo_handlers_t; //
-
-void Init_HW_Nucleo(nucleo_handlers_t handlers);
+void Init_Handler(SPI_HandleTypeDef * hspi1, TIM_HandleTypeDef * htim1);
 void Cs_Nucleo(cs_t cs_val);
-void W_Spi_Nucleo(uint8_t spi_byte);
-void WR_Spi_Nucleo(uint8_t spi_byte, char rx);
+void W_Spi_Nucleo(uint8_t * spi_byte);
+void WR_Spi_Nucleo(uint8_t * spi_byte, char * rx);
 void FrameTiming_Nucleo(uint32_t timing);
 void Delay_ms_Nucleo(uint32_t ms);
 
