@@ -1,0 +1,4 @@
+../Core/Src/mlx90316.c:15:16:IsError	16	static
+../Core/Src/mlx90316.c:29:14:ComputeAngle	24	static
+../Core/Src/mlx90316.c:36:6:Mlx90316_Init	8	static
+../Core/Src/mlx90316.c:48:7:Mlx90316_GetAngle	32	static

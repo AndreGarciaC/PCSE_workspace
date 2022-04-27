@@ -19,25 +19,26 @@ enum _csLevels {
 	CS_SET};
 typedef enum _csLevels cs_t;
 
-typedef void (*csBoard_t)(cs_t); //funcion con argumento tipo cs_t
-typedef void (*wspiBoard_t)(uint8_t); //funcion con argumento tipo cs_t
-typedef void (*wrspiBoard_t)(uint8_t, char); //funcion con argumento tipo cs_t
-typedef void (*frameTiming_t)(uint32_t); //funcion de delay en microsegundo
-typedef void (*delay_ms_t)(uint32_t); //funcion de delay en milisegundos
+typedef void (*CsBoard_t)(cs_t); //funcion con argumento tipo cs_t
+typedef void (*W_spiBoard_t)(uint8_t); //funcion con argumento tipo cs_t
+typedef void (*WR_spiBoard_t)(uint8_t, char); //funcion con argumento tipo cs_t
+typedef void (*Frame_Timing_t)(uint32_t); //funcion de delay en microsegundo
+typedef void (*Delay_ms_t)(uint32_t); //funcion de delay en milisegundos
 
 struct _mlx90316  {
-	csBoard_t csMlx;
-	wspiBoard_t wspiMlx;
-	frameTiming_t fTimingMlx;
-	delay_ms_t delay_msMlx;
+	CsBoard_t csMlx;
+	W_spiBoard_t wspiMlx;
+	WR_spiBoard_t wrspiMlx;
+	Frame_Timing_t fTimingMlx;
+	Delay_ms_t delay_msMlx;
 };
-typedef struct _mlx90316 mlx2Board; //
+typedef struct _mlx90316 mlx90316_t; //
 
 /**
  * Functions prototypes
  */
-void mlx90316_Init(void); //add structure of function used by the sensor
-float mlx90316_getAngle( uint16_t _sample);
+void Mlx90316_Init(mlx90316_t board_fncs); //add structure of function used by the sensor
+float Mlx90316_GetAngle();
 
 
 #endif /* INC_MLX90316_H_ */

@@ -2,54 +2,29 @@
  * mlx90316_NUCLEO_port.c
  *
  *  Created on: Apr 21, 2022
- *      Author: andrea
+ *      Author: Andrea García
  */
 
 #include "mlx90316_NUCLEO_port.h"
 
-const uint8_t H1 = 0xAA;
-const uint8_t H2 = 0xFF;
+static nucleo_handlers_t nucleo_hdlrs;
 
-//static void MX_SPI1_Init(void);
-//static void MX_SPI1_Init(void)
-//{
-//
-//	/* USER CODE BEGIN SPI1_Init 0 */
-//
-//	/* USER CODE END SPI1_Init 0 */
-//
-//	/* USER CODE BEGIN SPI1_Init 1 */
-//
-//	/* USER CODE END SPI1_Init 1 */
-//	/* SPI1 parameter configuration*/
-//	hspi1.Instance = SPI1;
-//	hspi1.Init.Mode = SPI_MODE_MASTER;
-//	hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-//	hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-//	hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-//	hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-//	hspi1.Init.NSS = SPI_NSS_SOFT;
-//	hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
-//	hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
-//	hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
-//	hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-//	hspi1.Init.CRCPolynomial = 10;
-//	if (HAL_SPI_Init(&hspi1) != HAL_OK)
-//	{
-//		Error_Handler();
-//	}
-//}
-
-void Cs_Nucleo(csCtrl_t cs_stt)
+void Init_HW_Nucleo(nucleo_handlers_t handlers)
 {
-	switch(cs_stt)
+	nucleo_hdlrs.hspi = handlers.hspi;
+	nucleo_hdlrs.htim = handlers.htim;
+}
+
+void Cs_Nucleo(cs_t cs_val)
+{
+	switch(cs_val)
 	{
 
 	case CS_RESET:
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, cs_stt);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, cs_val);
 		break;
 	case CS_SET:
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, cs_stt);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, cs_val);
 		break;
 
 	default:
@@ -57,17 +32,23 @@ void Cs_Nucleo(csCtrl_t cs_stt)
 	}
 }
 
-void Spi_Read2Nucleo(void)
+void W_Spi_Nucleo(uint8_t spi_byte)
 {
-//	HAL_Init();
-//	MX_SPI1_Init();
-//	Cs_Nucleo(0);
-//	HAL_Delay(2);
-//	HAL_SPI_Transmit(&hspi1,(uint8_t *)&H1,1,100);
-//	HAL_SPI_Transmit(&hspi1,(uint8_t *)&H2,1,100);
-//	for (uint8_t i=0;i<8;i++)
-//	{
-//		HAL_SPI_Transmit(&hspi1,(uint8_t *)&H2,1,100);
-//	}
-//	HAL_SPI_Receive(&hspi1,(uint8_t *)&spi_buffer,10,100);
+	HAL_SPI_Transmit(&nucleo_hdlrs.hspi,(uint8_t *)&spi_byte,1,100);
+}
+
+void WR_Spi_Nucleo(uint8_t spi_byte, char rx)
+{
+	HAL_SPI_TransmitReceive(&nucleo_hdlrs.hspi,(uint8_t *)&spi_byte,&rx,1,100);
+}
+
+void FrameTiming_Nucleo(uint32_t timing)
+{
+	__HAL_TIM_SET_COUNTER(&nucleo_hdlrs.htim,0);  // set the counter value a 0
+	while (__HAL_TIM_GET_COUNTER(&nucleo_hdlrs.htim) < timing);  // wait for the counter to reach the us input in the parameter
+}
+
+void Delay_ms_Nucleo(uint32_t ms)
+{
+	HAL_Delay(ms);
 }

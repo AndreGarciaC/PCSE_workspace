@@ -60,8 +60,8 @@ all: main-build
 main-build: Driver_316BDG.elf secondary-outputs
 
 # Tool invocations
-Driver_316BDG.elf Driver_316BDG.map: $(OBJS) $(USER_OBJS) D:\Andrea\Andrea\CESE\PCSE\PCSE_workspace\Driver_316BDG\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Driver_316BDG.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Andrea\Andrea\CESE\PCSE\PCSE_workspace\Driver_316BDG\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Driver_316BDG.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Driver_316BDG.elf Driver_316BDG.map: $(OBJS) $(USER_OBJS) /home/andrea/CESE/PCSE/PCSE_workspace/Driver_316BDG/STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Driver_316BDG.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/andrea/CESE/PCSE/PCSE_workspace/Driver_316BDG/STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Driver_316BDG.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
