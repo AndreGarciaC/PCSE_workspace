@@ -1,21 +1,13 @@
-/* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
-/* USER CODE END Header */
+ * @file main.c
+ * @author Andrea García
+ * @brief main.c file runs an application that makes use of the device driver that controls the MLX90316 sensor
+ * @version 0.1
+ * @date 2022-04-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "mlx90316_NUCLEO_port.h"

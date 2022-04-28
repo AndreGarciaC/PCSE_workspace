@@ -1,8 +1,13 @@
-/*
- * mlx90316_NUCLEO_port.h
+/**
+ * @file mlx90316_NUCLEO_port.h
+ * @author Andrea García
+ * @brief Header for mlx90316_NUCLEO_port.c file.
+ *        This file contains the common defines of the application.
+ * @version 0.1
+ * @date 2022-04-21
+ * 
+ * @copyright Copyright (c) 2022
  *
- *  Created on: Apr 21, 2022
- *      Author: Andrea García
  */
 
 #ifndef INC_MLX90316_NUCLEO_PORT_H_

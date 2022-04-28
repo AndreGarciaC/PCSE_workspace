@@ -1,10 +1,13 @@
-/*
- * mlx90316.c
- *
- *  Created on: Apr 21, 2022
- *      Author: Andrea García
+/**
+ * @file mlx90316.c
+ * @author Andrea García
+ * @brief mlx90316.c file contains the device driver that controls the MLX90316 sensor.
+ * @version 0.1
+ * @date 2022-04-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
  */
-
 #ifndef SRC_MLX90316_C_
 #define SRC_MLX90316_C_
 
