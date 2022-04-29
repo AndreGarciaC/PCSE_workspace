@@ -1,65 +1,34 @@
 <div id="top"></div>
 <!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
+*** Gracias por revisar el driver para el control del sensor MLX90316.
+*** Este driver está destinado para ser implementado en una tarjeta
+*** ST NUCLEO F429ZI, pero puedes adaptarlo a otra plataforma.
+*** modificando los ficheros PORT! :D
 -->
 
 
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
-
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">DEVICE DRIVER MLX90316 / 316BDG</h3>
 
   <p align="center">
-    project_description
+    Diseño de driver de control del sensor de posición rotativa MLX90316 usualmente implementado en sistemas de control de barreras FAAC.
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
   </p>
 </div>
 
 
 
-<!-- TABLE OF CONTENTS -->
+<!-- ÍNDICE -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Índice</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
+      <a href="#about-the-project">Acerca del proyecto</a>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -68,79 +37,53 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#usage">Uso</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
 
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+<!-- ACERCA DEL PROYECTO -->
+## ACERCA DEL PROYECTO
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Sensor de posición rotatoria][product-screenshot]](https://octopart.com/mlx90316kgo-bcg-000-re-melexis-23824199?gclid=Cj0KCQjwma6TBhDIARIsAOKuANxlfohRH970JQveR_-w9bwFxDych6ouOKjobJhTG30I7Lf9W7t93DUaArM5EALw_wcB)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-### Built With
-
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+Como parte del proyecto final de la asignatura Protocolos de Comunicación en Sistemas Embebidos, se requiere desarrollar un device driver. El seleccionado fue un controlador para el sensor de posición rotatoria MLX90316. Este consiste en un driver tipo polling que se comunica a través del protocolo SPI con la plataforma NUCLEO F429ZI.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+Para hacer uso del driver, es necesario tener conectado al sensor bajo un esquema SPI Single Die (Guiarse en la [datasheet](https://octopart.com/mlx90316kgo-bcg-000-re-melexis-23824199?gclid=Cj0KCQjwma6TBhDIARIsAOKuANxlfohRH970JQveR_-w9bwFxDych6ouOKjobJhTG30I7Lf9W7t93DUaArM5EALw_wcB)).
+<br />
+En el caso de querer implementarlo en una placa NUCLEO F429ZI, asegurarse de contar con el entorno de desarrollo STM32CubeIDE.
+<br />
+Asegurarse de contar con el imán dipolar para producir el fenómeno HALL bajo el cuál actúa el sensor.
+<br />
+Conectar en la siguiente distribución de pines:
+  MOSI: Pin PB5.
+  MISO: Pin PB4
+  CLK: Pin PB3
+  CS: Pin 15.
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+1. Cargar el proyecto en el workspace y ejecutarlo.
+2. Acceder a un monitor serial para visualizar los grados resultantes.
+3. Realizar movimientos rotatorios con el imán dipolar sobre el IC.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## USO
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
