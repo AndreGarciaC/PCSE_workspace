@@ -28,9 +28,9 @@ void Init_Handler(SPI_HandleTypeDef * hspi, TIM_HandleTypeDef * htim)
 }
 
 /**
- * @brief Cs_Nucleo: Function that sets GPIO pin 15 high or low.
+ * @brief Cs_Nucleo: Cambia el nivel del pin GPIO 15 entre alto o bajo.
  * 
- * @param cs_val State to which the pin will be set.
+ * @param cs_val Estado en el cuál el pin será configurado.
  */
 void Cs_Nucleo(cs_t cs_val)
 {
@@ -50,9 +50,9 @@ void Cs_Nucleo(cs_t cs_val)
 }
 
 /**
- * @brief 
+ * @brief W_Spi_Nucleo: Envía un byte de datos al sensor.
  * 
- * @param spi_byte 
+ * @param spi_byte byte que contiene la información a enviar al sensor.
  */
 void W_Spi_Nucleo(uint8_t *spi_byte)
 {
@@ -60,10 +60,10 @@ void W_Spi_Nucleo(uint8_t *spi_byte)
 }
 
 /**
- * @brief 
+ * @brief WR_Spi_Nucleo: Envía un byte de datos al sensor y almacena su respuesta en un vhar.
  * 
- * @param spi_byte 
- * @param rx 
+ * @param spi_byte byte que contiene la información a enviar al sensor.
+ * @param rx puntero al char donde será almacenada la respuesta del sensor.
  */
 void WR_Spi_Nucleo(uint8_t* spi_byte, char *rx)
 {
@@ -71,9 +71,9 @@ void WR_Spi_Nucleo(uint8_t* spi_byte, char *rx)
 }
 
 /**
- * @brief 
+ * @brief FrameTiming_Nucleo: Demora en tiempo menor a ms requerida para definir los tiempos en la trama de datos.
  * 
- * @param timing 
+ * @param timing tiempo (1 unidad = 6 us).
  */
 void FrameTiming_Nucleo(uint32_t timing)
 {
@@ -82,9 +82,9 @@ void FrameTiming_Nucleo(uint32_t timing)
 }
 
 /**
- * @brief 
+ * @brief Delay_ms_Nucleo: Demora en milisegundos para definir los tiempos requeridos en la trama de datos.
  * 
- * @param ms 
+ * @param ms tiempo en milisegundos.
  */
 void Delay_ms_Nucleo(uint32_t ms)
 {
