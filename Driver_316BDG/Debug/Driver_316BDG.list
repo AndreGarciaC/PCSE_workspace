@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_macro  00024d83  00000000  00000000  000336b0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   000104bf  00000000  00000000  00058433  2**0
+ 18 .debug_line   000104c2  00000000  00000000  00058433  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000dd402  00000000  00000000  000688f2  2**0
+ 19 .debug_str    000dd402  00000000  00000000  000688f5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000050  00000000  00000000  00145cf4  2**0
+ 20 .comment      00000050  00000000  00000000  00145cf7  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00004f80  00000000  00000000  00145d44  2**2
+ 21 .debug_frame  00004f80  00000000  00000000  00145d48  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2416,10 +2416,10 @@ float Mlx90316_GetAngle()
  800165c:	bf800000 	.word	0xbf800000
 
 08001660 <Init_Handler>:
-
-static SPI_HandleTypeDef* hspi1;
-static TIM_HandleTypeDef* htim1;
-
+ * 
+ * @param hspi Puntero al handler de la comunicación SPI.
+ * @param htim Puntero al handler del TIMER.
+ */
 void Init_Handler(SPI_HandleTypeDef * hspi, TIM_HandleTypeDef * htim)
 {
  8001660:	b480      	push	{r7}
@@ -2446,7 +2446,10 @@ void Init_Handler(SPI_HandleTypeDef * hspi, TIM_HandleTypeDef * htim)
  8001688:	200002f4 	.word	0x200002f4
 
 0800168c <Cs_Nucleo>:
-
+ * @brief Cs_Nucleo: Function that sets GPIO pin 15 high or low.
+ * 
+ * @param cs_val State to which the pin will be set.
+ */
 void Cs_Nucleo(cs_t cs_val)
 {
  800168c:	b580      	push	{r7, lr}
@@ -2492,7 +2495,10 @@ void Cs_Nucleo(cs_t cs_val)
  80016cc:	40020000 	.word	0x40020000
 
 080016d0 <W_Spi_Nucleo>:
-
+ * @brief 
+ * 
+ * @param spi_byte 
+ */
 void W_Spi_Nucleo(uint8_t *spi_byte)
 {
  80016d0:	b580      	push	{r7, lr}
@@ -2515,7 +2521,10 @@ void W_Spi_Nucleo(uint8_t *spi_byte)
  80016f0:	200002f0 	.word	0x200002f0
 
 080016f4 <WR_Spi_Nucleo>:
-
+ * 
+ * @param spi_byte 
+ * @param rx 
+ */
 void WR_Spi_Nucleo(uint8_t* spi_byte, char *rx)
 {
  80016f4:	b580      	push	{r7, lr}
@@ -2540,7 +2549,10 @@ void WR_Spi_Nucleo(uint8_t* spi_byte, char *rx)
  8001718:	200002f0 	.word	0x200002f0
 
 0800171c <FrameTiming_Nucleo>:
-
+ * @brief 
+ * 
+ * @param timing 
+ */
 void FrameTiming_Nucleo(uint32_t timing)
 {
  800171c:	b480      	push	{r7}
@@ -2572,7 +2584,10 @@ void FrameTiming_Nucleo(uint32_t timing)
  800174c:	200002f4 	.word	0x200002f4
 
 08001750 <Delay_ms_Nucleo>:
-
+ * @brief 
+ * 
+ * @param ms 
+ */
 void Delay_ms_Nucleo(uint32_t ms)
 {
  8001750:	b580      	push	{r7, lr}

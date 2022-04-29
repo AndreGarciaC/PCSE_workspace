@@ -13,8 +13,15 @@
 
 #include "mlx90316.h"
 
+//Estructura donde se recibiran las funciones de la capa superior.
 static mlx90316_t mlx90316_fncs;
 
+/**
+ * @brief IsError Analiza el segundo LSB del buffer de datos para validar si se trata de información del ángulo o de una trama de error.
+ * 
+ * @param _sample Respuesta del sensor correspondiente a los 2 bytes de datos.
+ * @return uint8_t 
+ */
 static uint8_t IsError(uint16_t _sample)
 {
 	_sample = _sample&0x02;//analizo el 2do bit menos significativo
@@ -29,6 +36,12 @@ static uint8_t IsError(uint16_t _sample)
 	}
 }
 
+/**
+ * @brief ComputeAngle: Transforma en grados el valor representado en el buffer _sample.
+ * 
+ * @param _sample Respuesta del sensor correspondiente a los 2 bytes de datos.
+ * @return float valor decimal que representa la posición en grados.
+ */
 static float ComputeAngle( uint16_t _sample)
 {
 	float ans;
@@ -36,6 +49,12 @@ static float ComputeAngle( uint16_t _sample)
 	return ans;
 }
 
+/**
+ * @brief Mlx90316_Init: Carga la estructura que contiene las funciones definidas en la capa superior.
+ * 
+ * @param _sample Estructura compuesta por funciones equivalentes a las definidas en una capa superior.
+ * 
+ */
 void Mlx90316_Init(mlx90316_t board_fncs)
 {
 	mlx90316_fncs.csMlx = board_fncs.csMlx;
@@ -48,6 +67,11 @@ void Mlx90316_Init(mlx90316_t board_fncs)
 	mlx90316_fncs.delay_msMlx(2);
 }
 
+/**
+ * @brief Mlx90316_GetAngle(): Envía trama de consulta de datos y almacena la respuesta del sensor para luego ser transformada en grados.
+ * 
+ * @return float valor decimal que representa la posición en grados.
+ */
 float Mlx90316_GetAngle()
 {
 	char Rx;

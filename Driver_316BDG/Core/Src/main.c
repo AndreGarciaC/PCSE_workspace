@@ -53,46 +53,23 @@ static void MX_SPI1_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_TIM1_Init(void);
 void PrintString( const char *pcString );
-//void delay_us (uint16_t us);
-//float getAngle( uint16_t _sample);
-//uint8_t isError(uint16_t _sample);
+
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+/**
+ * @brief PrintString Impresión por puerto serial.
+ * 
+ * @param pcString puntero a buffer char que contiene el string a imprimir.
+ */
 void PrintString( const char *pcString )
 {
 	  HAL_UART_Transmit(&huart3, (uint8_t *)pcString, (uint16_t) strlen((char *)pcString), 10);
 }
 
-//float getAngle( uint16_t _sample)
-//{
-//	float ans;
-//	ans = (((float)_sample)*360.0)/16383.0;
-//	return ans;
-//}
-
-//uint8_t isError(uint16_t _sample)
-//{
-//	_sample = _sample&0x02;
-//	_sample = _sample>>1;
-//	if(_sample==1)
-//	{
-//		PrintString( "Error\r\n" );
-//		return 1; //Error
-//	}
-//	else if(_sample ==0)
-//	{
-//		return 0; //No error
-//	}
-//}
-//void delay_us (uint16_t us)
-//{
-//	__HAL_TIM_SET_COUNTER(&htim1,0);  // set the counter value a 0
-//	while (__HAL_TIM_GET_COUNTER(&htim1) < us);  // wait for the counter to reach the us input in the parameter
-//}
 
 /* USER CODE END 0 */
 
@@ -105,9 +82,6 @@ int main(void)
   /* USER CODE BEGIN 1 */
 	char uart_buffer [50];
 	float degrees;
-//	char spi_buffer[8];
-//	char Rx;
-//	uint16_t sample;
 	mlx90316_t mlx90316;
 
   /* USER CODE END 1 */
@@ -143,9 +117,7 @@ int main(void)
 
   Mlx90316_Init(mlx90316);
   Init_Handler(&hspi1, &htim1);
-  //CS pin en alto por defecto
-//  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
-//  HAL_Delay(2);
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -156,25 +128,6 @@ int main(void)
   {
 	  /* USER CODE END WHILE */
 
-//	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_RESET);
-//	  delay_us(1);
-//	  HAL_SPI_Transmit(&hspi1,(uint8_t *)&START_READ,1,100);
-//	  HAL_SPI_Transmit(&hspi1,(uint8_t *)&START_READ2,1,100);
-//	  delay_us(6);
-//	  for (uint8_t i=0;i<8;i++)
-//	  {
-//		  HAL_SPI_TransmitReceive(&hspi1,(uint8_t *)&START_READ2,&Rx,1,100);
-//		  spi_buffer[i]=Rx;
-//		  delay_us(3);
-//	  }
-//	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
-//	  sample = spi_buffer[1]&0xFF;
-//	  sample|= (spi_buffer[0]&0xFF) << 8;
-//	  if(isError(sample)==0)
-//	  {
-//		  sample = sample>>2;
-//		  float angle = (getAngle(sample));
-//	  }
 	  degrees = Mlx90316_GetAngle();
 	  sprintf(uart_buffer,"Dato: %3.2f \r\n",degrees);
 	  PrintString(uart_buffer);
